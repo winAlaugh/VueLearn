@@ -1,0 +1,45 @@
+<html>
+ <div id="app">
+    <select v-model="selected">
+	<option v-for="item in allState">{{item}}</option>
+	</select>
+	<input v-model="inputString" placeholder='输入待做事项' @keyup.enter="submit">
+	<ol>
+	<li v-for ="item in filterList"><input type="checkbox" v-model="item.completed">
+	<input type="text" v-model="item.content"></li>
+	</ol>
+	
+ </div>
+ <script src="vue.js"></script>
+ <script type="text/javascript">
+	vm = new Vue({
+		el:'#app',
+		data: {
+		  allList:[],
+		  inputString:'',
+		  allState:["all","complete","remain"],
+		  selected:''
+		},
+		methods:{
+		submit:function(){
+		this.allList.push({completed:false,content:this.inputString});
+		}
+		},
+		computed:{
+		filterList:function(){
+		  var selected = this.selected;
+		  var list = this.allList;
+		  if(selected=="all" || selected==""){
+		  return list;
+		  }else if(selected=="complete"){
+		  return list.filter(function (number) {
+                        return number.completed == true
+                })
+		  }else if(selected=="remain"){
+		  return list.filter(function(item){return item.completed==false})
+		  }
+		}
+		}
+	});
+ </script>
+</html>
