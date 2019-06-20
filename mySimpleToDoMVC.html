@@ -6,7 +6,8 @@
 	<input v-model="inputString" placeholder='输入待做事项' @keyup.enter="submit">
 	<ol>
 	<li v-for ="item in filterList"><input type="checkbox" v-model="item.completed">
-	<input type="text" v-model="item.content"></li>
+	<input type="text" v-model="item.content">
+	<button class="destroy" @click="removeTodo(item)">删除</button></li>
 	</ol>
 	
  </div>
@@ -23,7 +24,10 @@
 		methods:{
 		submit:function(){
 		this.allList.push({completed:false,content:this.inputString});
-		}
+		},
+		removeTodo: function (todo) {
+      this.allList.splice(this.allList.indexOf(todo), 1)
+    },
 		},
 		computed:{
 		filterList:function(){
